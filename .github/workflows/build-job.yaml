@@ -1,0 +1,32 @@
+name: Build
+
+on:
+  workflow_run:
+    branches: [main]
+    types:
+      - completed
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24.x
+
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build App
+        run: PUBLIC_URL=https://aorist9.github.io/certamen-ladder yarn build
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: build
