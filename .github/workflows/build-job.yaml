@@ -22,7 +22,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Build App
-        run: PUBLIC_URL=https://aorist9.github.io/certamen-ladder yarn build
+        run: PUBLIC_URL=https://njcl-certamen.github.io/certamen-questions-app yarn build
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
