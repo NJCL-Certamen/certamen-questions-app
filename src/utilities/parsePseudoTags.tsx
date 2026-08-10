@@ -28,9 +28,6 @@ const parseSection = (text: string): string | ReactNode | ReactNode[] => {
 	);
 	const afterText = text.substring(closeTagIndex + `</${tag}>`.length);
 
-	console.log("&*(", regexResult);
-	console.log("$%^&", insideText);
-
 	switch (TAGS[tag]) {
 		case "bold":
 			return (
