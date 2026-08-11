@@ -1,6 +1,10 @@
 export interface Link {
 	rel: string;
 	href: string;
+	tournament: string;
+	year: string;
+	division: string;
+	round: string;
 }
 
 export interface QuestionAnswer {
