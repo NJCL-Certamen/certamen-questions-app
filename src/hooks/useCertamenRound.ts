@@ -6,7 +6,7 @@ import { Link, Round } from "../types";
 const CONTENTS_URL =
 	"https://raw.githubusercontent.com/NJCL-Certamen/certamen-catalogue/refs/heads/main/questions/index.yaml";
 
-const ARRANGEMENT_ORDER: (keyof Link)[] = [
+export const ARRANGEMENT_ORDER: (keyof Link)[] = [
 	"tournament",
 	"year",
 	"division",
@@ -54,7 +54,7 @@ const SORT_FUNCTIONS: Record<keyof Link, (r1: string, r2: string) => number> = {
 
 const useCertamenRound = (): {
 	clearRound: VoidFunction;
-	contents?: Link[];
+	contents?: Link[][][][];
 	getRound: (href: string) => void;
 	round?: Round;
 	state: "LOADING" | "CONTENTS" | "ROUND";
@@ -95,22 +95,82 @@ const useCertamenRound = (): {
 			});
 	};
 
-	const contents: Link[] = useMemo(() => {
+	const contents: Link[][][][] = useMemo(() => {
 		if (!rawContents) {
-			return [] as Link[];
+			return [] as Link[][][][];
 		}
 
-		return rawContents.sort((r1: Link, r2: Link) => {
-			let result = 0;
-			for (const attr of ARRANGEMENT_ORDER) {
-				result = SORT_FUNCTIONS[attr](`${r1[attr]}`, `${r2[attr]}`);
-				if (result !== 0) {
-					return result;
+		const firstSort: Record<string, Link[]> = rawContents.reduce(
+			(acc: Record<string, Link[]>, r: Link) => {
+				if (!acc[r[ARRANGEMENT_ORDER[0]]]) {
+					acc[r[ARRANGEMENT_ORDER[0]]] = [];
 				}
-			}
+				acc[r[ARRANGEMENT_ORDER[0]]].push(r);
+				return acc;
+			},
+			{} as Record<string, Link[]>
+		);
 
-			return result;
-		});
+		const secondSort: Record<string, Record<string, Link[]>> = Object.keys(
+			firstSort
+		).reduce(
+			(acc, key) => {
+				acc[key] = firstSort[key].reduce(
+					(innerAcc, r) => {
+						if (!innerAcc[r[ARRANGEMENT_ORDER[1]]]) {
+							innerAcc[r[ARRANGEMENT_ORDER[1]]] = [];
+						}
+						innerAcc[r[ARRANGEMENT_ORDER[1]]].push(r);
+						return innerAcc;
+					},
+					{} as Record<string, Link[]>
+				);
+				return acc;
+			},
+			{} as Record<string, Record<string, Link[]>>
+		);
+
+		const thirdSort: Record<
+			string,
+			Record<string, Record<string, Link[]>>
+		> = Object.keys(secondSort).reduce(
+			(acc, key) => {
+				acc[key] = Object.keys(secondSort[key]).reduce(
+					(innerAcc, innerKey) => {
+						innerAcc[innerKey] = secondSort[key][innerKey].reduce(
+							(innerestAcc, r) => {
+								if (!innerestAcc[r[ARRANGEMENT_ORDER[2]]]) {
+									innerestAcc[r[ARRANGEMENT_ORDER[2]]] = [];
+								}
+								innerestAcc[r[ARRANGEMENT_ORDER[2]]].push(r);
+								return innerestAcc;
+							},
+							{} as Record<string, Link[]>
+						);
+						return innerAcc;
+					},
+					{} as Record<string, Record<string, Link[]>>
+				);
+				return acc;
+			},
+			{} as Record<string, Record<string, Record<string, Link[]>>>
+		);
+
+		return Object.keys(thirdSort)
+			.sort(SORT_FUNCTIONS[ARRANGEMENT_ORDER[0]])
+			.map(key1 => {
+				return Object.keys(thirdSort[key1])
+					.sort(SORT_FUNCTIONS[ARRANGEMENT_ORDER[1]])
+					.map(key2 => {
+						return Object.keys(thirdSort[key1][key2])
+							.sort(SORT_FUNCTIONS[ARRANGEMENT_ORDER[2]])
+							.map(key3 => {
+								return thirdSort[key1][key2][key3].sort((r1, r2) => {
+									return SORT_FUNCTIONS[ARRANGEMENT_ORDER[3]](`${r1}`, `${r2}`);
+								});
+							});
+					});
+			});
 	}, [rawContents]);
 
 	const state: "LOADING" | "CONTENTS" | "ROUND" = useMemo(() => {
