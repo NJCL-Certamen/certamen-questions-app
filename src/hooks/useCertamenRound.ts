@@ -174,7 +174,10 @@ const useCertamenRound = (): {
 							.sort(SORT_FUNCTIONS[ARRANGEMENT_ORDER[2]])
 							.map(key3 => {
 								return thirdSort[key1][key2][key3].sort((r1, r2) => {
-									return SORT_FUNCTIONS[ARRANGEMENT_ORDER[3]](`${r1}`, `${r2}`);
+									return SORT_FUNCTIONS[ARRANGEMENT_ORDER[3]](
+										`${r1[ARRANGEMENT_ORDER[3]]}`,
+										`${r2[ARRANGEMENT_ORDER[3]]}`
+									);
 								});
 							});
 					});
