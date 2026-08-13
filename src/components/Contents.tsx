@@ -12,6 +12,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { Link } from "../types";
 import { ARRANGEMENT_ORDER } from "../hooks/useCertamenRound";
+import { useNavigate } from "react-router-dom";
 
 const Contents = ({
 	contents,
@@ -19,49 +20,54 @@ const Contents = ({
 }: {
 	contents: Link[][][][];
 	getRound: (href: string) => void;
-}) => (
-	<Stack direction="column" sx={{ gap: 2, mt: "2rem" }}>
-		{contents.map((manyManyLinks: Link[][][], idx: number) => (
-			<Card key={`1.${idx}`} variant="elevation">
-				<CardHeader title={manyManyLinks[0][0][0][ARRANGEMENT_ORDER[0]]} />
-				<CardContent>
-					<Stack direction="row" sx={{ flexWrap: "wrap", gap: 2 }}>
-						{manyManyLinks.map((manyLinks: Link[][], idx2: number) => (
-							<Card key={`2.${idx2}`} variant="outlined">
-								<CardHeader title={manyLinks[0][0][ARRANGEMENT_ORDER[1]]} />
-								<CardContent>
-									{manyLinks.map((links: Link[], idx3: number) => (
-										<Accordion key={`3.${idx3}`}>
-											<AccordionSummary>
-												<Typography variant="body1">
-													{links[0][ARRANGEMENT_ORDER[2]]}
-												</Typography>
-											</AccordionSummary>
-											<AccordionDetails>
-												<List>
-													{links.map((link: Link) => (
-														<ListItem
-															component={Button}
-															key={link.rel}
-															onClick={() => {
-																getRound(link.href);
-															}}
-														>
-															{link.rel}
-														</ListItem>
-													))}
-												</List>
-											</AccordionDetails>
-										</Accordion>
-									))}
-								</CardContent>
-							</Card>
-						))}
-					</Stack>
-				</CardContent>
-			</Card>
-		))}
-	</Stack>
-);
+}) => {
+	const navigate = useNavigate();
+
+	return (
+		<Stack direction="column" sx={{ gap: 2, mt: "2rem" }}>
+			{contents.map((manyManyLinks: Link[][][], idx: number) => (
+				<Card key={`1.${idx}`} variant="elevation">
+					<CardHeader title={manyManyLinks[0][0][0][ARRANGEMENT_ORDER[0]]} />
+					<CardContent>
+						<Stack direction="row" sx={{ flexWrap: "wrap", gap: 2 }}>
+							{manyManyLinks.map((manyLinks: Link[][], idx2: number) => (
+								<Card key={`2.${idx2}`} variant="outlined">
+									<CardHeader title={manyLinks[0][0][ARRANGEMENT_ORDER[1]]} />
+									<CardContent>
+										{manyLinks.map((links: Link[], idx3: number) => (
+											<Accordion key={`3.${idx3}`}>
+												<AccordionSummary>
+													<Typography variant="body1">
+														{links[0][ARRANGEMENT_ORDER[2]]}
+													</Typography>
+												</AccordionSummary>
+												<AccordionDetails>
+													<List>
+														{links.map((link: Link) => (
+															<ListItem
+																component={Button}
+																key={link.rel}
+																onClick={() => {
+																	getRound(link.href);
+																	navigate(`/round?path="${link.href}"`);
+																}}
+															>
+																{link.rel}
+															</ListItem>
+														))}
+													</List>
+												</AccordionDetails>
+											</Accordion>
+										))}
+									</CardContent>
+								</Card>
+							))}
+						</Stack>
+					</CardContent>
+				</Card>
+			))}
+		</Stack>
+	);
+};
 
 export default Contents;

@@ -55,12 +55,14 @@ const SORT_FUNCTIONS: Record<keyof Link, (r1: string, r2: string) => number> = {
 const useCertamenRound = (): {
 	clearRound: VoidFunction;
 	contents?: Link[][][][];
+	errorMsg?: string;
 	getRound: (href: string) => void;
 	round?: Round;
 	state: "LOADING" | "CONTENTS" | "ROUND";
 } => {
 	const [rawContents, setRawContents] = useState<Link[] | undefined>();
 	const [round, setRound] = useState<Round | undefined>();
+	const [errorMsg, setErrorMsg] = useState<string | undefined>();
 
 	useEffect(() => {
 		axios
@@ -78,10 +80,12 @@ const useCertamenRound = (): {
 			})
 			.catch(error => {
 				console.error(error);
+				setErrorMsg("Error retrieving table of contents");
 			});
 	}, []);
 
 	const getRound = (href: string) => {
+		setErrorMsg(undefined);
 		axios
 			.get(href, {
 				headers: { Accept: "application/yml" }
@@ -92,6 +96,10 @@ const useCertamenRound = (): {
 				}
 
 				setRound(YAML.parse(response.data));
+			})
+			.catch(err => {
+				console.error(err);
+				setErrorMsg("Error retrieving round");
 			});
 	};
 
@@ -188,6 +196,7 @@ const useCertamenRound = (): {
 			setRound(undefined);
 		},
 		contents,
+		errorMsg,
 		getRound,
 		round,
 		state
