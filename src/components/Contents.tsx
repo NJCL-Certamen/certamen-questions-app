@@ -11,17 +11,15 @@ import ListItem from "@mui/material/ListItem";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { Link } from "../types";
-import { ARRANGEMENT_ORDER } from "../hooks/useCertamenRound";
+import { ARRANGEMENT_ORDER } from "../hooks/useSortedContents";
 import { useNavigate } from "react-router-dom";
+import { useQuestionsContext } from "../context/QuestionsContext";
+import useSortedContents from "../hooks/useSortedContents";
 
-const Contents = ({
-	contents,
-	getRound
-}: {
-	contents: Link[][][][];
-	getRound: (href: string) => void;
-}) => {
+const Contents = () => {
 	const navigate = useNavigate();
+	const { getRound } = useQuestionsContext();
+	const { contents } = useSortedContents();
 
 	return (
 		<Stack direction="column" sx={{ gap: 2, mt: "2rem" }}>
