@@ -1,11 +1,9 @@
 import React from "react";
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import QuestionAnswerGrid from "./QuestionAnswerGrid";
 import { useNavigate } from "react-router-dom";
 import Loading from "./Loading";
 import { useQuestionsContext } from "../context/QuestionsContext";
