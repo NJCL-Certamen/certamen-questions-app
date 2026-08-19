@@ -12,13 +12,11 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { Link } from "../types";
 import { useNavigate } from "react-router-dom";
-import { useQuestionsContext } from "../context/QuestionsContext";
 import useSortedContents from "../hooks/useSortedContents";
 import { useOptionsContext } from "../context/OptionsContext";
 
 const Contents = () => {
 	const navigate = useNavigate();
-	const { getRound } = useQuestionsContext();
 	const { arrangementOrder } = useOptionsContext();
 	const { contents } = useSortedContents();
 
@@ -47,8 +45,7 @@ const Contents = () => {
 																component={Button}
 																key={link.rel}
 																onClick={() => {
-																	getRound(link.href);
-																	navigate(`/round?path="${link.href}"`);
+																	navigate(`/round?path=${link.href}`);
 																}}
 															>
 																{link.rel}

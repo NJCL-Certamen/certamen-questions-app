@@ -1,17 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Loading from "./Loading";
 import { useQuestionsContext } from "../context/QuestionsContext";
 import Tossup from "./Tossup";
 
 const CertamenRound = () => {
 	const navigate = useNavigate();
-	const { clearRound, errorMsg, isLoading, round } = useQuestionsContext();
+	const { clearRound, errorMsg, isLoading, round, getRound } =
+		useQuestionsContext();
+	const { search } = useLocation();
+
+	useEffect(() => {
+		const pathIdx = search.indexOf("path=");
+		if (pathIdx >= 0) {
+			const path = search.substring(pathIdx + "path=".length);
+			const andIdx = path.indexOf("&");
+			if (andIdx < 0) {
+				getRound(path);
+			} else {
+				getRound(path.substring(andIdx));
+			}
+		}
+		// ignoring getRound dependency to avoid multiple runs
+		// eslint-disable-next-line
+	}, [search]);
 
 	if (errorMsg) {
 		return (
