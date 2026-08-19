@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "https://njcl-certamen.github.io/certamen-questions-app/static/css/main.e6c13ad2.css",
-    "main.js": "https://njcl-certamen.github.io/certamen-questions-app/static/js/main.d45783fc.js",
+    "main.js": "https://njcl-certamen.github.io/certamen-questions-app/static/js/main.7f9d1bb2.js",
     "static/js/453.4644cc5c.chunk.js": "https://njcl-certamen.github.io/certamen-questions-app/static/js/453.4644cc5c.chunk.js",
     "index.html": "https://njcl-certamen.github.io/certamen-questions-app/index.html",
     "main.e6c13ad2.css.map": "https://njcl-certamen.github.io/certamen-questions-app/static/css/main.e6c13ad2.css.map",
-    "main.d45783fc.js.map": "https://njcl-certamen.github.io/certamen-questions-app/static/js/main.d45783fc.js.map",
+    "main.7f9d1bb2.js.map": "https://njcl-certamen.github.io/certamen-questions-app/static/js/main.7f9d1bb2.js.map",
     "453.4644cc5c.chunk.js.map": "https://njcl-certamen.github.io/certamen-questions-app/static/js/453.4644cc5c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.d45783fc.js"
+    "static/js/main.7f9d1bb2.js"
   ]
 }
