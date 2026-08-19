@@ -66,7 +66,7 @@ const Header = () => {
 					</MenuItem>
 				</Menu>
 			</AppBar>
-			<div className="placeholder" style={{ height: "5rem" }}></div>
+			<div className="placeholder" style={{ height: "6rem" }}></div>
 			<SortingDialog
 				isOpen={showSortingDialog}
 				close={() => setShowSortingDialog(false)}

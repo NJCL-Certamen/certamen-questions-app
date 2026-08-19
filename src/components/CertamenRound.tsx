@@ -9,12 +9,11 @@ import QuestionAnswerGrid from "./QuestionAnswerGrid";
 import { useNavigate } from "react-router-dom";
 import Loading from "./Loading";
 import { useQuestionsContext } from "../context/QuestionsContext";
-import { useOptionsContext } from "../context/OptionsContext";
+import Tossup from "./Tossup";
 
 const CertamenRound = () => {
 	const navigate = useNavigate();
 	const { clearRound, errorMsg, isLoading, round } = useQuestionsContext();
-	const { hideAnswers, hideBoni } = useOptionsContext();
 
 	if (errorMsg) {
 		return (
@@ -47,18 +46,7 @@ const CertamenRound = () => {
 					</Box>
 				</Stack>
 				{round.questions.map((q, idx) => (
-					<Card key={idx} variant="outlined" sx={{ p: 2 }}>
-						<Stack direction="column" spacing={2}>
-							<QuestionAnswerGrid prefix={`TU${idx + 1}`} question={q.tossup} />
-							{q.boni.map((b, bIdx) => (
-								<QuestionAnswerGrid
-									key={`Bonus${bIdx}`}
-									prefix={`B${bIdx + 1}`}
-									question={b}
-								/>
-							))}
-						</Stack>
-					</Card>
+					<Tossup key={idx} question={q} number={idx + 1} />
 				))}
 			</Stack>
 		);
