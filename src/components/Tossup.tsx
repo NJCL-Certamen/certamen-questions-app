@@ -32,9 +32,10 @@ const Tossup = ({
 	}, [hideBoni]);
 
 	return (
-		<Card variant="outlined" sx={{ p: 2 }}>
-			<Stack direction="column" spacing={2}>
+		<Card key={`card${number}`} variant="outlined" sx={{ p: 2 }}>
+			<Stack direction="column" spacing={2} key={`stack${number}`}>
 				<QuestionAnswerGrid
+					key={`Tossup${number}`}
 					prefix={`TU${number}`}
 					question={question.tossup}
 					setShowAnswer={setShowTossupAnswer}
@@ -60,6 +61,7 @@ const Tossup = ({
 					} else {
 						return (
 							<Button
+								key={`Button${bIdx}`}
 								component="button"
 								variant="outlined"
 								onClick={() =>
