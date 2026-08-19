@@ -13,8 +13,8 @@ import { Link } from "../types";
 import { useState } from "react";
 import {
 	ARRANGEMENT_ORDER_STORAGE_KEY,
-	useQuestionsContext
-} from "../context/QuestionsContext";
+	useOptionsContext
+} from "../context/OptionsContext";
 
 const SortingDialog = ({
 	close,
@@ -23,7 +23,7 @@ const SortingDialog = ({
 	close: VoidFunction;
 	isOpen: boolean;
 }) => {
-	const { arrangementOrder, setArrangementOrder } = useQuestionsContext();
+	const { arrangementOrder, setArrangementOrder } = useOptionsContext();
 	const [newArrangementOrder, setNewArrangementOrder] =
 		useState<(keyof Link)[]>(arrangementOrder); // don't want to re-sort on every click
 

@@ -14,10 +14,12 @@ import { Link } from "../types";
 import { useNavigate } from "react-router-dom";
 import { useQuestionsContext } from "../context/QuestionsContext";
 import useSortedContents from "../hooks/useSortedContents";
+import { useOptionsContext } from "../context/OptionsContext";
 
 const Contents = () => {
 	const navigate = useNavigate();
-	const { getRound, arrangementOrder } = useQuestionsContext();
+	const { getRound } = useQuestionsContext();
+	const { arrangementOrder } = useOptionsContext();
 	const { contents } = useSortedContents();
 
 	return (

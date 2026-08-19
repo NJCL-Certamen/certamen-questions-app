@@ -2,9 +2,11 @@ import { useMemo } from "react";
 import { useQuestionsContext } from "../context/QuestionsContext";
 import { Link } from "../types";
 import { SORT_FUNCTIONS } from "../utilities/sortFunctions";
+import { useOptionsContext } from "../context/OptionsContext";
 
 const useSortedContents = () => {
-	const { contents: rawContents, arrangementOrder } = useQuestionsContext();
+	const { contents: rawContents } = useQuestionsContext();
+	const { arrangementOrder } = useOptionsContext();
 
 	const contents: Link[][][][] = useMemo(() => {
 		if (!rawContents) {

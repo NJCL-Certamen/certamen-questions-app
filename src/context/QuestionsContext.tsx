@@ -1,34 +1,21 @@
-import React, {
-	Dispatch,
-	ReactNode,
-	SetStateAction,
-	useEffect,
-	useState
-} from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { Link, Round } from "../types";
 import {
 	retrieveContents,
 	retrieveRound
 } from "../client/certamenCatalogueApi";
 
-export const ARRANGEMENT_ORDER_STORAGE_KEY =
-	"certamen-questions-app.arrangement-order";
-
 const QuestionsContext = React.createContext<{
-	arrangementOrder: (keyof Link)[];
 	clearRound: VoidFunction;
 	contents?: Link[];
 	errorMsg?: string;
 	getRound: (href: string) => void;
 	isLoading: boolean;
 	round?: Round;
-	setArrangementOrder: Dispatch<SetStateAction<(keyof Link)[]>>;
 }>({
-	arrangementOrder: ["tournament", "year", "division", "round"],
 	clearRound: () => {},
 	getRound: () => {},
-	isLoading: true,
-	setArrangementOrder: order => {}
+	isLoading: true
 });
 
 export const QuestionsContextProvider = ({
@@ -40,15 +27,6 @@ export const QuestionsContextProvider = ({
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [round, setRound] = useState<Round | undefined>();
 	const [errorMsg, setErrorMsg] = useState<string | undefined>();
-
-	const storedArrangementOrder = localStorage.getItem(
-		ARRANGEMENT_ORDER_STORAGE_KEY
-	);
-	const [arrangementOrder, setArrangementOrder] = useState<(keyof Link)[]>(
-		storedArrangementOrder
-			? JSON.parse(storedArrangementOrder)
-			: ["tournament", "year", "division", "round"]
-	);
 
 	useEffect(() => {
 		setIsLoading(true);
@@ -80,7 +58,6 @@ export const QuestionsContextProvider = ({
 	return (
 		<QuestionsContext.Provider
 			value={{
-				arrangementOrder,
 				clearRound: () => {
 					setRound(undefined);
 				},
@@ -88,8 +65,7 @@ export const QuestionsContextProvider = ({
 				errorMsg,
 				getRound,
 				isLoading,
-				round,
-				setArrangementOrder
+				round
 			}}
 		>
 			{children}
