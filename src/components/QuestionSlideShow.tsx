@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
 import IconButton from "@mui/material/IconButton";
+import Slide from "@mui/material/Slide";
 import Stack from "@mui/material/Stack";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
@@ -45,12 +46,26 @@ const QuestionSlideShow = ({ round }: { round: Round }) => {
 			>
 				<ArrowBackIcon />
 			</IconButton>
-			<Tossup
-				key={currentQuestion}
-				question={round.questions[currentQuestion]}
-				width={tossupWidth}
-				number={currentQuestion + 1}
-			/>
+			{round.questions.map((question, idx) => (
+				<Slide
+					key={`slide${idx}`}
+					in={idx === currentQuestion}
+					direction="right"
+					mountOnEnter
+					unmountOnExit
+					easing={{
+						enter: theme.transitions.easing.easeIn,
+						exit: theme.transitions.easing.sharp
+					}}
+				>
+					<Tossup
+						key={idx}
+						question={question}
+						width={tossupWidth}
+						number={idx + 1}
+					/>
+				</Slide>
+			))}
 			<IconButton
 				onClick={() => {
 					setCurrentQuestion(cq => (cq + 1) % round.questions.length);

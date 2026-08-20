@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Ref, useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
@@ -9,11 +9,13 @@ import { useOptionsContext } from "../context/OptionsContext";
 const Tossup = ({
 	question,
 	width,
-	number
+	number,
+	ref
 }: {
 	question: { tossup: QuestionAnswer; boni: QuestionAnswer[] };
 	width?: string;
 	number: number;
+	ref?: Ref<HTMLDivElement>;
 }) => {
 	const { hideAnswers, hideBoni } = useOptionsContext();
 	const [showTossupAnswer, setShowTossupAnswer] = useState(!hideAnswers);
@@ -34,7 +36,12 @@ const Tossup = ({
 	}, [hideBoni]);
 
 	return (
-		<Card key={`card${number}`} variant="outlined" sx={{ p: 2, width }}>
+		<Card
+			key={`card${number}`}
+			variant="outlined"
+			sx={{ p: 2, width }}
+			ref={ref}
+		>
 			<Stack direction="column" spacing={2} key={`stack${number}`}>
 				<QuestionAnswerGrid
 					key={`Tossup${number}`}
