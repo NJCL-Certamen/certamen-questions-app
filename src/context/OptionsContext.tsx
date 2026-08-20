@@ -12,6 +12,8 @@ export const ARRANGEMENT_ORDER_STORAGE_KEY =
 
 export const HIDE_ANSWERS_STORAGE_KEY = "certamen-questions-app.hide-answers";
 export const HIDE_BONI_STORAGE_KEY = "certamen-questions-app.hide-boni";
+export const SHOW_QUESTIONS_ONE_AT_A_TIME_STORAGE_KEY =
+	"certamen-questions-app.show-questions-one-at-a-time";
 
 const OptionsContext = React.createContext<{
 	arrangementOrder: (keyof Link)[];
@@ -20,13 +22,17 @@ const OptionsContext = React.createContext<{
 	setArrangementOrder: Dispatch<SetStateAction<(keyof Link)[]>>;
 	setHideAnswers: Dispatch<SetStateAction<boolean>>;
 	setHideBoni: Dispatch<SetStateAction<boolean>>;
+	setShowQuestionsOneAtATime: Dispatch<SetStateAction<boolean>>;
+	showQuestionsOneAtATime: boolean;
 }>({
 	arrangementOrder: ["tournament", "year", "division", "round"],
 	hideAnswers: false,
 	hideBoni: false,
 	setArrangementOrder: () => {},
 	setHideAnswers: () => {},
-	setHideBoni: () => {}
+	setHideBoni: () => {},
+	setShowQuestionsOneAtATime: () => {},
+	showQuestionsOneAtATime: false
 });
 
 export const OptionsContextProvider = ({
@@ -39,8 +45,14 @@ export const OptionsContextProvider = ({
 	const storedArrangementOrder = localStorage.getItem(
 		ARRANGEMENT_ORDER_STORAGE_KEY
 	);
+	const storedShowQuestionsOneAtATime = localStorage.getItem(
+		SHOW_QUESTIONS_ONE_AT_A_TIME_STORAGE_KEY
+	);
 	const [hideAnswers, setHideAnswers] = useState(storedHideAnswers === "true");
 	const [hideBoni, setHideBoni] = useState(storedHideBoni === "true");
+	const [showQuestionsOneAtATime, setShowQuestionsOneAtATime] = useState(
+		storedShowQuestionsOneAtATime === "true"
+	);
 	const [arrangementOrder, setArrangementOrder] = useState<(keyof Link)[]>(
 		storedArrangementOrder
 			? JSON.parse(storedArrangementOrder)
@@ -55,6 +67,13 @@ export const OptionsContextProvider = ({
 		localStorage.setItem(HIDE_BONI_STORAGE_KEY, `${hideBoni}`);
 	}, [hideBoni]);
 
+	useEffect(() => {
+		localStorage.setItem(
+			SHOW_QUESTIONS_ONE_AT_A_TIME_STORAGE_KEY,
+			`${showQuestionsOneAtATime}`
+		);
+	}, [showQuestionsOneAtATime]);
+
 	return (
 		<OptionsContext.Provider
 			value={{
@@ -63,7 +82,9 @@ export const OptionsContextProvider = ({
 				hideBoni,
 				setArrangementOrder,
 				setHideAnswers,
-				setHideBoni
+				setHideBoni,
+				setShowQuestionsOneAtATime,
+				showQuestionsOneAtATime
 			}}
 		>
 			{children}

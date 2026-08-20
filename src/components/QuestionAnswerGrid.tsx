@@ -32,7 +32,9 @@ const QuestionAnswerGrid = ({
 					{prefix}
 				</Typography>
 			</Grid>
-			<Grid size={{ xs: 12, md: 8 }}>{parsedQuestion}</Grid>
+			<Grid size={{ xs: 12, md: 8 }} sx={{ px: 1 }}>
+				{parsedQuestion}
+			</Grid>
 			<Grid size={{ xs: 12, md: 3 }}>
 				{showAnswer ? (
 					parsedAnswer

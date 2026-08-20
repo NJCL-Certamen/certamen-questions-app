@@ -8,9 +8,11 @@ import { useOptionsContext } from "../context/OptionsContext";
 
 const Tossup = ({
 	question,
+	width,
 	number
 }: {
 	question: { tossup: QuestionAnswer; boni: QuestionAnswer[] };
+	width?: string;
 	number: number;
 }) => {
 	const { hideAnswers, hideBoni } = useOptionsContext();
@@ -32,7 +34,7 @@ const Tossup = ({
 	}, [hideBoni]);
 
 	return (
-		<Card key={`card${number}`} variant="outlined" sx={{ p: 2 }}>
+		<Card key={`card${number}`} variant="outlined" sx={{ p: 2, width }}>
 			<Stack direction="column" spacing={2} key={`stack${number}`}>
 				<QuestionAnswerGrid
 					key={`Tossup${number}`}

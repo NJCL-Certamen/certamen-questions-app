@@ -14,8 +14,14 @@ import { useOptionsContext } from "../context/OptionsContext";
 
 const Header = () => {
 	const location = useLocation();
-	const { hideAnswers, hideBoni, setHideAnswers, setHideBoni } =
-		useOptionsContext();
+	const {
+		hideAnswers,
+		hideBoni,
+		setHideAnswers,
+		setHideBoni,
+		setShowQuestionsOneAtATime,
+		showQuestionsOneAtATime
+	} = useOptionsContext();
 	const [showSortingDialog, setShowSortingDialog] = useState(false);
 	const [anchor, setAnchor] = useState<HTMLButtonElement | undefined>();
 
@@ -63,6 +69,16 @@ const Header = () => {
 							{hideBoni && <Check fontSize="small" />}
 						</ListItemIcon>
 						<ListItemText>Hide Boni (until clicked)</ListItemText>
+					</MenuItem>
+					<MenuItem
+						role="menuitemcheckbox"
+						selected={showQuestionsOneAtATime}
+						onClick={() => setShowQuestionsOneAtATime(ssqoaat => !ssqoaat)}
+					>
+						<ListItemIcon>
+							{showQuestionsOneAtATime && <Check fontSize="small" />}
+						</ListItemIcon>
+						<ListItemText>Show Questions One at a Time</ListItemText>
 					</MenuItem>
 				</Menu>
 			</AppBar>

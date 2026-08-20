@@ -8,11 +8,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Loading from "./Loading";
 import { useQuestionsContext } from "../context/QuestionsContext";
 import Tossup from "./Tossup";
+import { useOptionsContext } from "../context/OptionsContext";
+import QuestionSlideShow from "./QuestionSlideShow";
 
 const CertamenRound = () => {
 	const navigate = useNavigate();
 	const { clearRound, errorMsg, isLoading, round, getRound } =
 		useQuestionsContext();
+	const { showQuestionsOneAtATime } = useOptionsContext();
 	const { search } = useLocation();
 
 	useEffect(() => {
@@ -60,9 +63,13 @@ const CertamenRound = () => {
 						</Button>
 					</Box>
 				</Stack>
-				{round.questions.map((q, idx) => (
-					<Tossup key={idx} question={q} number={idx + 1} />
-				))}
+				{showQuestionsOneAtATime ? (
+					<QuestionSlideShow round={round} />
+				) : (
+					round.questions.map((q, idx) => (
+						<Tossup key={idx} question={q} number={idx + 1} />
+					))
+				)}
 			</Stack>
 		);
 	}
